@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <script type="text/javascript" src="script/jquery-3.1.0.min.js"></script>
+        <script type="text/javascript" src="script/index.js"></script>
+        <script type="text/javascript" src="script/handlebars-v4.0.5.js"></script>
+        <script type="text/javascript" src="script/chui-3.9.2.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/chui-ios-3.9.2.css" >
+        <link type="text/css" rel="stylesheet" href="css/game.css" >
+        <script id="playerTemplate" type="text/x-handlebars">
+            <img src="img/Fred.jpg" />
+            <h3>{{name}}</h3>
+        </script>
+    </head>
+    <body>
+        <nav class="current">
+            <h1>Create New Game</h1>
+        </nav>
+        <article id="main">
+            <section class="action">
+                <ul class="list">                
+                    <li><label for="gameTitle">Title: </label><input type="text" id="gameTitle"/></li>
+                    <li><label for="capacity">Capacity: </label><input type="text" id="capacity"/></li>
+                </ul>
+                <p>
+                    <button type="button" id="create">Create</button>
+                </p >
+            </section>
+        </article>
+        <nav>
+            <h1>Waiting for Players (<span id="playerAmount">0</span>)</h1>
+            <button type="button" id="refreshBtn">Refresh</button>
+        </nav>
+        <article id="waitGame">
+            <section>
+                <ul class="list">
+                    <li>
+                        <label for="waitGameId">Game id</label>
+                        <span id="waitGameId"></span>
+                    </li>
+                    <li>
+                        <label for="waitGameTitle">Title</label>
+                        <span id="waitGameTitle"></span>
+                    </li>
+                    <li>
+                        <label for="waitGameCapacity">Capacity</label>
+                        <span id="waitGameCapacity"></span>
+                    </li>
+                </ul>
+                <p>
+                    <button type="button" id="gameStartBtn">Start</button>
+                </p >
+            </section>
+        </article>
+
+        <nav>
+            <h1>UNO with friends</h1>
+        </nav>
+        <article id="gameTable">
+            <section class="players">
+                <div class="cards">
+                    <img src="img/back.png"/>
+                    <img id="discrad" src=""/>
+                </div>
+                <h1>Players</h1>
+                <aside id="playerList">
+
+                </aside>
+            </section>
+        </article>
+
+    </body>
+</html>

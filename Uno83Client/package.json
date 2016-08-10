@@ -1,0 +1,8 @@
+{
+    "name": "Uno83Client",
+    "version": "1.0.0",
+    "keywords": ["util", "functional", "server", "client", "browser"],
+    "author": "Mitch",
+    "contributors": [],
+    "dependencies": {}
+}

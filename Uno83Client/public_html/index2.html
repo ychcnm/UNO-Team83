@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <script type="text/javascript" src="script/jquery-3.1.0.min.js"></script>
+        <script type="text/javascript" src="script/index2.js"></script>
+        <script type="text/javascript" src="script/handlebars-v4.0.5.js"></script>
+        <script type="text/javascript" src="script/chui-3.9.2.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/chui-ios-3.9.2.css" >
+        <link type="text/css" rel="stylesheet" href="css/player.css">
+        <script id="listTemplate" type="text/x-handlebars">
+            <li class="comp">
+            <div>
+            <h3>{{gameTitle}}</h3>
+            <h4 id="selected-id">{{gameId}}</h4>
+            </div>
+            <aside>
+            <h4 style="color:red" id="selected-status">{{gameStatus}}</h3>
+            <h4>{{capacity}}</h4>
+            <h4>{{playerAmount}}</h4>   
+            </aside>
+            </li>
+        </script>
+    </head>
+    <body>
+        <nav class="current">
+            <h1>Game List (<span id="gameAmount"></span>)</h1>
+            <button type="button" id="gameListRefresh">Refresh</button>
+        </nav>
+        <article id="game_list" class="current">
+            <section>
+                <ul class="list" id="gameList">
+                </ul>
+            </section>
+        </article>
+
+        <nav>
+            <button class="back" id="back_game_list">Back</button>
+            <h1>Player Details</h1>
+        </nav>
+        <article id="player_details">
+            <section>
+                <h2>Joining game <span id="detailsGameId"></span></h2>
+                <ul class="list">
+                    <li>
+                        <label for="playerName">Name: </label>
+                        <input type="text" placeholder="Your name" id="playerName">
+                    </li>
+                </ul>
+                <p>
+                    <button type="button" id="joinBtn">Join Game</button>
+                </p >
+            </section>
+        </article>
+        <nav>
+            <h1>Ready to Play</h1>
+        </nav>
+        <article id="waitingGame">
+            <section>
+                <h2><span id="player"></span> Joining game <span id="waitingGameId"></span></h2>
+                <ul class="list">
+                    <li>
+                        Waiting For Game Start ...
+                    </li>
+                </ul>
+                <p>
+                    <button type="button" id="refreshGameBtn">Refresh</button>
+                </p >
+            </section>
+        </article>
+
+        <nav>
+            <h1>Uno Game</h1>
+        </nav>
+        <article id="gameStart">
+            <section>
+                <div class="container">
+                    <ul id="handCards">
+
+                    </ul>
+                </div>
+            </section>
+        </article>
+    </body>
+</html>

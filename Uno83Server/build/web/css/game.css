@@ -1,0 +1,108 @@
+/* stylesheet for game startup*/
+
+/*#txtuser{
+    border: solid 2px;
+    width: 200px;
+    position: absolute;
+    top: 35%;
+    left: 45%;
+    margin-top: -50px;
+    margin-left: -50px;
+    height: 120px;
+}
+
+#button{
+    object-position: center;
+}
+
+table{
+    align-content: center;
+    alignment: center;
+}
+
+#newgame{
+    border-bottom-style: hidden;
+    width: 200px;
+    position: absolute;
+    top: 10%;
+    left: 45%;
+    margin-top: -50px;
+    margin-left: -50px;
+    height: 120px;
+}
+
+.container{
+    alignment: center;
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+.join{
+    alignment: center;
+    position: absolute;
+    top: 85%;
+    left: 60%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+.name{
+    margin-left: 10px;
+    left: 90%;
+}
+
+.img-container { position: relative; }
+
+.img-container .top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+*/
+/* stylesheet for game table*/
+
+.players {
+    width: 100%;
+    border: 10px burlywood ridge;
+    /*max-width: 650px;*/
+    background-color: darkslategrey ;
+}
+
+.players h1{
+    font-size: 1.25em;
+    font-weight: bold;
+    color: white;
+    margin-left: 0.75em;
+}
+
+.cards img {
+    float: right;
+    padding: 2em;
+    width: 25%;
+}
+
+.front img {
+    -webkit-transform: rotate(0deg);
+}
+
+.front img:hover {
+    -webkit-transform: rotate(-20deg);
+}
+
+aside h3 {
+    color: white;
+    margin: 0 0 0.5em 0.75em;
+    width: 5em;
+}
+
+aside img {
+    margin: 0 0 0 0.75em;
+    width: 10%;
+}
+
+
+
