@@ -1,0 +1,46 @@
+/*stylesheet for player's hand*/
+
+.container li {
+    display: inline;
+    position: absolute;
+    top: 100px;
+}
+
+.first li {
+    left: 20px;
+    z-index: 0;
+}
+
+.second {
+    left: 100px;
+    z-index: 1;
+}
+
+.third {
+    left: 180px;
+    z-index: 2;
+}
+
+.fourth {
+    left: 260px;
+    z-index: 3;
+}
+
+.fifth {
+    left: 340px;
+    z-index: 4;
+}
+
+.sixth {
+    left: 420px;
+    z-index: 5;
+}
+
+.seventh {
+    left: 500px;
+    z-index: 6;
+}
+
+li:hover {
+    top: 10px;
+}
