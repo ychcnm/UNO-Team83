@@ -1,6 +1,6 @@
 
 $(function () {
-    var basicUrl = "http://localhost:8080/api/UnoGame/";
+    var basicUrl = "http://localhost:8080/Uno83Server/api/UnoGame/";
     $("#create").on("singletap", function () {
         var gameTitle = $("#gameTitle").val();
         var capacity = $("#capacity").val();
@@ -27,7 +27,7 @@ $(function () {
             return;
         }
         $.post(basicUrl + "POST/Start/" + gameId).done(function (result) {
-            $("#discrad").attr("src", "img/" + result[0].img2);
+            $("#discrad").attr("src", "http://localhost:8080/Uno83Server/img/" + result[0].img2);
             var playerTemplate = Handlebars.compile($("#playerTemplate").html());
             for (var i = 1; i < result.length; i++) {
                 $("#playerList").append(playerTemplate(result[i]));

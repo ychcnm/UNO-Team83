@@ -1,5 +1,5 @@
 $(function () {
-    var basicUrl = "http://localhost:8080/api/UnoGame/";
+    var basicUrl = "http://localhost:8080/Uno83Server/api/UnoGame/";
     $("#gameListRefresh").on("singletap", function () {
         $.getJSON(basicUrl + "GET/gameList")
                 .done(function (result) {
@@ -55,7 +55,7 @@ $(function () {
                     for (var i = 0; i < result.length; i++)
                     {
                         var cardUrl = $('<li class="special">');
-                        var img = $("<img>").attr("src", "img/" + result[i].card);
+                        var img = $("<img>").attr("src", "http://localhost:8080/Uno83Server/img/" + result[i].card);
                         cardUrl.append(img);
                         $("#handCards").append(cardUrl);
                     }

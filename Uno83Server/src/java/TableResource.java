@@ -43,15 +43,11 @@ public class TableResource {
     public Response createGame(@PathParam("gameTitle") String title, @PathParam("capacity") int capacity) {
         UUID id = UUID.randomUUID();
         String gameId = id.toString().substring(0, 6);
-        unoGame game = new unoGame(title, Status.GAME_WAITING, capacity);
+        unoGame game = new unoGame(gameId, title, Status.GAME_WAITING, capacity);
         gameList.put(gameId, game);
         System.out.print(">> Create the game：ID:" + gameId + " TITLE:" + title);
-        JsonObject gameJson = Json.createObjectBuilder()
-                .add("gameId", gameId)
-                .add("gameTitle", title)
-                .add("capacity", capacity)
-                .build();
-        return Response.ok(gameJson).build();
+
+        return Response.ok(game.toJson()).header("Access-Control-Allow-Origin","*").build();
     }
 
     @GET
@@ -61,16 +57,11 @@ public class TableResource {
         System.out.print(">> Get the Game List");
         JsonArrayBuilder gameJsonArray = Json.createArrayBuilder();
         for (Map.Entry<String, unoGame> game : gameList.entrySet()) {
-            JsonObject gameJson = Json.createObjectBuilder()
-                    .add("gameId", game.getKey())
-                    .add("gameTitle", game.getValue().getTitle())
-                    .add("capacity", game.getValue().getCapcity())
-                    .add("playerAmount", game.getValue().getGamePlayers().size())
-                    .add("gameStatus", game.getValue().getGameStatus().toString())
-                    .build();
-            gameJsonArray.add(gameJson);
+            gameJsonArray.add(game.getValue().toJson());
         }
-        return Response.ok(gameJsonArray.build()).build();
+        return Response.ok(gameJsonArray.build())
+                .header("Access-Control-Allow-Origin","*")
+                .build();
     }
 
     @POST
@@ -87,7 +78,9 @@ public class TableResource {
         }
         g.addPlayer(player);
 
-        return Response.ok().build();
+        return Response.ok()
+                .header("Access-Control-Allow-Origin","*")
+                .build();
     }
 
     @GET
@@ -100,7 +93,9 @@ public class TableResource {
         JsonObject json = Json.createObjectBuilder()
                 .add("amount", amount)
                 .build();
-        return Response.ok(json).build();
+        return Response.ok(json)
+                .header("Access-Control-Allow-Origin","*")
+                .build();
     }
 
     @POST
@@ -125,7 +120,9 @@ public class TableResource {
                     .build();
             gameInfoJsonArray.add(gameJson1);
         }
-        return Response.ok(gameInfoJsonArray.build()).build();
+        return Response.ok(gameInfoJsonArray.build())
+                .header("Access-Control-Allow-Origin","*")
+                .build();
     }
 
     @GET
@@ -134,7 +131,9 @@ public class TableResource {
     public Response getGameInfo(@PathParam("gameId") String gameId, @PathParam("playerName") String name) {
         unoGame game = gameList.get(gameId);
         if (!game.getGameStatus().equals(Status.GAME_START)) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                    .header("Access-Control-Allow-Origin","*")
+                    .build();
         } else {
 
             JsonArrayBuilder handCards = Json.createArrayBuilder();
@@ -145,10 +144,14 @@ public class TableResource {
                 }
             }
             for (unoCard c : player.getHandCards()) {
-                JsonObject cards = Json.createObjectBuilder().add("card", c.getImage()).build();
+                JsonObject cards = Json.createObjectBuilder()
+                        .add("card", c.getImage())
+                        .build();
                 handCards.add(cards);
             }
-            return Response.ok(handCards.build()).build();
+            return Response.ok(handCards.build())
+                    .header("Access-Control-Allow-Origin","*")
+                    .build();
         }
     }
 }
