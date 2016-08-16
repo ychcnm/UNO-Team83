@@ -34,22 +34,25 @@ and open the template in the editor.
         </article>
         <nav>
             <h1>Waiting for Players (<span id="playerAmount">0</span>)</h1>
-            <button type="button" id="refreshBtn">Refresh</button>
+            <!--<button type="button" id="refreshBtn">Refresh</button>-->
         </nav>
         <article id="waitGame">
             <section>
                 <ul class="list">
                     <li>
-                        <label for="waitGameId">Game id</label>
+                        <label for="waitGameId">Game id</label><br>
                         <span id="waitGameId"></span>
                     </li>
                     <li>
-                        <label for="waitGameTitle">Title</label>
+                        <label for="waitGameTitle">Title</label><br>
                         <span id="waitGameTitle"></span>
                     </li>
                     <li>
-                        <label for="waitGameCapacity">Capacity</label>
+                        <label for="waitGameCapacity">Capacity</label><br>
                         <span id="waitGameCapacity"></span>
+                    </li>
+                    <li id="players">
+                        <h3>Player List</h3>
                     </li>
                 </ul>
                 <p>
@@ -67,10 +70,11 @@ and open the template in the editor.
                     <img src="http://localhost:8080/Uno83Server/img/back.png"/>
                     <img id="discrad" src=""/>
                 </div>
-                <h1>Players</h1>
-                <aside id="playerList">
+                <h2>Cards Remain: <span id="cardRemain"></span></h1>
+                    <h1>Players</h1>
+                    <aside id="playerList">
 
-                </aside>
+                    </aside>
             </section>
         </article>
 
