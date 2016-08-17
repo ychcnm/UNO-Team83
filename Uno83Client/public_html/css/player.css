@@ -8,7 +8,7 @@
 }
 .special:hover {
     animation-name:cardout;
-    animation-duration: 1s;
+    animation-duration: 1.5s;
 }
 
 @keyframes cardout {
@@ -23,7 +23,8 @@
 
 .special li {
     animation-name:cardin;
-    animation-duration: 1s;
+    animation-duration: 1.5s;
+    width:85%;
 }
 #turn{
     color:white;

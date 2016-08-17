@@ -1,6 +1,5 @@
 
 import engine.unoEngine;
-import enums.Direction;
 import enums.Status;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -160,125 +159,34 @@ public class UnoGame {
                 unoCard card = player.findCard(a);
                 int score = 0;
                 switch (g.judgeCard(card)) {
-                    case NORMAL: {
-                        g.setDicardPile(player.removeFormHand(card));
-                        score = player.getScore();
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "changePile")
-                                .add("pile", g.getDicardPile().getImage())
-                                .build()
-                                .toString();
-                        try {
-                            g.getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "refreshCard")
-                                .add("hands", player.handsToJson().build())
-                                .add("handsCount", player.getHandCards().size())
-                                .add("score", score)
-                                .add("turn", "It is not your turn")
-                                .build()
-                                .toString();
-                        try {
-                            player.getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        g.addPlayer(g.getGamePlayers().remove(0));
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "shift")
-                                .add("turn", "It is your turn")
-                                .build()
-                                .toString();
-                        try {
-                            g.getGamePlayers().get(0).getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                    break;
-                    case SKIP: {
-                        g.setDicardPile(player.removeFormHand(card));
-                        score = player.getScore();
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "changePile")
-                                .add("pile", g.getDicardPile().getImage())
-                                .build()
-                                .toString();
-                        try {
-                            g.getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "refreshCard")
-                                .add("hands", player.handsToJson().build())
-                                .add("handsCount", player.getHandCards().size())
-                                .add("score", score)
-                                .add("turn", "It is not your turn")
-                                .build()
-                                .toString();
-                        try {
-                            player.getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        g.addPlayer(g.getGamePlayers().remove(0));
-                        g.addPlayer(g.getGamePlayers().remove(0));
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "shift")
-                                .add("turn", "It is your turn")
-                                .build()
-                                .toString();
-                        try {
-                            g.getGamePlayers().get(0).getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                    break;
-                    case REVERSE:
-                        g.setDirection(Direction.ANTICLOCKWISE);
-                        g.turnDirection();
-                        g.setDicardPile(player.removeFormHand(card));
-                        score = player.getScore();
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "changePile")
-                                .add("pile", g.getDicardPile().getImage())
-                                .build()
-                                .toString();
-                        try {
-                            g.getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "refreshCard")
-                                .add("hands", player.handsToJson().build())
-                                .add("handsCount", player.getHandCards().size())
-                                .add("score", score)
-                                .add("turn", "It is not your turn")
-                                .build()
-                                .toString();
-                        try {
-                            player.getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        newMessage = Json.createObjectBuilder()
-                                .add("msg", "shift")
-                                .add("turn", "It is your turn")
-                                .build()
-                                .toString();
-                        try {
-                            g.getGamePlayers().get(0).getSession().getBasicRemote().sendText(newMessage);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
+                    case NORMAL:
+                        g.setDrawCount(1);
+                        g.setShiftCount(1);
                         break;
-                    default: {
+                    case SKIP:
+                        g.setShiftCount(2);
+                        break;
+                    case REVERSE:
+                        g.setShiftCount(0);
+                        g.turnDirection();
+                        break;
+                    case DRAW_2:
+                        g.setShiftCount(1);
+                        g.setDrawCount(g.getDrawCount() + 2);
+                        break;
+                    case DRAW_4:
+                        g.setShiftCount(1);
+                        g.setDrawCount(g.getDrawCount() + 4);
+                        break;
+                    case WILD:
+                        g.setShiftCount(1);
+                        g.setFlag(true);
+                        break;
+                    case PASS:
+                        g.setShiftCount(1);
+                        g.setFlag(false);
+                        break;
+                    default:
                         newMessage = Json.createObjectBuilder()
                                 .add("msg", "returnCard")
                                 .add("hands", player.handsToJson().build())
@@ -287,22 +195,38 @@ public class UnoGame {
                                 .toString();
                         try {
                             player.getSession().getBasicRemote().sendText(newMessage);
+                            g.setFlag(false);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        return;
+                };
+                g.setDicardPile(player.removeFormHand(card));
+                score = player.getScore();
+                if (player.getHandCards().size() == 0) {
+                    g.setGameStatus(Status.GAME_END);
+                    newMessage = Json.createObjectBuilder()
+                            .add("msg", "gameEnd")
+                            .add("players", g.rankToJson().build())
+                            .build()
+                            .toString();
+                    try {
+                        g.getSession().getBasicRemote().sendText(newMessage);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    for (unoPlayer p : g.getGamePlayers()) {
+                        try {
+                            p.getSession().getBasicRemote().sendText(newMessage);
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
                     }
-                    break;
+                    return;
                 }
-
-            }
-            break;
-            case "drawCard": {
-                unoPlayer player = g.findPlayer(data.getString("playerName"));
-                player.addToHand(g.takeCard());
-
                 newMessage = Json.createObjectBuilder()
-                        .add("msg", "refreshCardAmount")
-                        .add("amount", g.getGameDeck().getAmount())
+                        .add("msg", "changePile")
+                        .add("pile", g.getDicardPile().getImage())
                         .build()
                         .toString();
                 try {
@@ -310,19 +234,144 @@ public class UnoGame {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
                 newMessage = Json.createObjectBuilder()
                         .add("msg", "refreshCard")
                         .add("hands", player.handsToJson().build())
                         .add("handsCount", player.getHandCards().size())
-                        .add("score", player.getScore())
-                        .add("turn", "It is your turn")
+                        .add("score", score)
+                        .add("turn", "It is not your turn")
                         .build()
                         .toString();
                 try {
                     player.getSession().getBasicRemote().sendText(newMessage);
                 } catch (IOException ex) {
                     ex.printStackTrace();
+                }
+                for (int i = 0; i < g.getShiftCount(); i++) {
+                    g.addPlayer(g.getGamePlayers().remove(0));
+                }
+                newMessage = Json.createObjectBuilder()
+                        .add("msg", "shift")
+                        .add("turn", "It is your turn")
+                        .build()
+                        .toString();
+                try {
+                    g.getGamePlayers().get(0).getSession().getBasicRemote().sendText(newMessage);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+            break;
+            case "drawCard": {
+                unoPlayer player = g.findPlayer(data.getString("playerName"));
+                unoCard card = null;
+                if (g.getDrawCount() == 1) {
+                    card = g.takeCard();
+                    player.addToHand(card);
+                    newMessage = Json.createObjectBuilder()
+                            .add("msg", "refreshCardAmount")
+                            .add("amount", g.getGameDeck().getAmount())
+                            .build()
+                            .toString();
+                    try {
+                        g.getSession().getBasicRemote().sendText(newMessage);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    switch (g.judgeCard(card)) {
+                        case NORMAL: {
+                            newMessage = Json.createObjectBuilder()
+                                    .add("msg", "refreshCard")
+                                    .add("hands", player.handsToJson().build())
+                                    .add("handsCount", player.getHandCards().size())
+                                    .add("score", player.getScore())
+                                    .add("turn", "It is your turn")
+                                    .build()
+                                    .toString();
+                            try {
+                                player.getSession().getBasicRemote().sendText(newMessage);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        break;
+                        default: {
+                            newMessage = Json.createObjectBuilder()
+                                    .add("msg", "refreshCard")
+                                    .add("hands", player.handsToJson().build())
+                                    .add("handsCount", player.getHandCards().size())
+                                    .add("score", player.getScore())
+                                    .add("turn", "It is not your turn")
+                                    .build()
+                                    .toString();
+                            try {
+                                player.getSession().getBasicRemote().sendText(newMessage);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            g.addPlayer(g.getGamePlayers().remove(0));
+                            newMessage = Json.createObjectBuilder()
+                                    .add("msg", "shift")
+                                    .add("turn", "It is your turn")
+                                    .build()
+                                    .toString();
+                            try {
+                                g.getGamePlayers().get(0).getSession().getBasicRemote().sendText(newMessage);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        break;
+                    }
+                    g.setFlag(false);
+                } else {
+                    for (int i = 0; i < g.getDrawCount(); i++) {
+                        card = g.takeCard();
+                        player.addToHand(card);
+                    }
+                    g.setDrawCount(1);
+                    newMessage = Json.createObjectBuilder()
+                            .add("msg", "refreshCardAmount")
+                            .add("amount", g.getGameDeck().getAmount())
+                            .build()
+                            .toString();
+                    try {
+                        g.getSession().getBasicRemote().sendText(newMessage);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    newMessage = Json.createObjectBuilder()
+                            .add("msg", "refreshCard")
+                            .add("hands", player.handsToJson().build())
+                            .add("handsCount", player.getHandCards().size())
+                            .add("score", player.getScore())
+                            .add("turn", "It is not your turn")
+                            .build()
+                            .toString();
+                    try {
+                        player.getSession().getBasicRemote().sendText(newMessage);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    g.addPlayer(g.getGamePlayers().remove(0));
+                    player = g.getGamePlayers().get(0);
+                    newMessage = Json.createObjectBuilder()
+                            .add("msg", "refreshCard")
+                            .add("hands", player.handsToJson().build())
+                            .add("handsCount", player.getHandCards().size())
+                            .add("score", player.getScore())
+                            .add("turn", "It is your turn")
+                            .build()
+                            .toString();
+
+                    try {
+                        player.getSession().getBasicRemote().sendText(newMessage);
+                        g.setFlag(true);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
             break;
