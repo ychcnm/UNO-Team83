@@ -11,10 +11,31 @@ and open the template in the editor.
         <script type="text/javascript" src="script/handlebars-v4.0.5.js"></script>
         <script type="text/javascript" src="script/chui-3.9.2.js"></script>
         <link type="text/css" rel="stylesheet" href="css/chui-ios-3.9.2.css" >
+        <link type="text/css" rel="stylesheet" href="css/CreateGame.css" >
         <link type="text/css" rel="stylesheet" href="css/game.css" >
         <script id="playerTemplate" type="text/x-handlebars">
             <img src="http://localhost:8080/Uno83Server/img/Fred.jpg" />
             <h3>{{name}}</h3>
+        </script>
+        <script id="rankTemplate" type="text/x-handlebars">
+            <ul class="list">
+            {{#each players}}
+               <li>
+                  <h3>{{name}}</h3>
+                  <h4>Score: {{score}}</h4>
+               </li>
+            {{/each}}
+            </ul>
+        </script>
+        <script id="rankTemplate" type="text/x-handlebars">
+            <ul class="list">
+            {{#each players}}
+               <li>
+                  <h3>{{name}}</h3>
+                  <h4>Score: {{score}}</h4>
+               </li>
+            {{/each}}
+            </ul>
         </script>
     </head>
     <body>
@@ -40,15 +61,15 @@ and open the template in the editor.
             <section>
                 <ul class="list">
                     <li>
-                        <label for="waitGameId">Game id</label><br>
+                        <label style="font-size:1.3em" for="waitGameId">Game id</label><br>
                         <span id="waitGameId"></span>
                     </li>
                     <li>
-                        <label for="waitGameTitle">Title</label><br>
+                        <label style="font-size:1.3em"  for="waitGameTitle">Title</label><br>
                         <span id="waitGameTitle"></span>
                     </li>
                     <li>
-                        <label for="waitGameCapacity">Capacity</label><br>
+                        <label style="font-size:1.3em"  for="waitGameCapacity">Capacity</label><br>
                         <span id="waitGameCapacity"></span>
                     </li>
                     <li id="players">
@@ -70,13 +91,25 @@ and open the template in the editor.
                     <img src="http://localhost:8080/Uno83Server/img/back.png"/>
                     <img id="discrad" src=""/>
                 </div>
-                <h2>Cards Remain: <span id="cardRemain"></span></h1>
-                    <h1>Players</h1>
-                    <aside id="playerList">
+                <h2 style="color:white">Cards Remain: <span id="cardRemain"></span></h2>
+                <h1>Players</h1>
+                <aside id="playerList">
 
-                    </aside>
+                </aside>
+                <br> 
+                <p>
+                    <button type="button" id="btnGameEnd">Game End</button>
+                </p>
             </section>
         </article>
 
+        <nav>
+            <h1>Game End</h1>
+        </nav>
+        <article id="gameEnd">
+            <section id="Rank">
+                
+            </section>
+        </article>
     </body>
 </html>

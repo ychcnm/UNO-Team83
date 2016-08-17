@@ -834,6 +834,7 @@ if(window.jQuery) {
     // Navigate to Specific Article
     ///////////////////////////////
     UIGoToArticle : function ( destination ) {
+        console.info(">>> destination: %s, %s", destination, $.isNavigating);
       if ($.isNavigating) return;
       $.isNavigating = true;
       var current = $('article.current');
@@ -861,7 +862,7 @@ if(window.jQuery) {
       if (destinationToolbar && destinationToolbar.length) {
         destinationToolbar.removeClass(navigationClass).addClass('current');
       }
-
+console.info("destination: " + destination);
       $.UISetHashOnUrl(destination[0].id);
       setTimeout(function() {
         $.isNavigating = false;

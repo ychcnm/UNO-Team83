@@ -82,7 +82,7 @@ table{
 .cards img {
     float: right;
     padding: 2em;
-    width: 25%;
+    width: 15%;
 }
 
 .front img {
@@ -102,6 +102,10 @@ aside h3 {
 aside img {
     margin: 0 0 0 0.75em;
     width: 10%;
+}
+
+#btnGameEnd {
+    margin-left: 0.75em;
 }
 
 

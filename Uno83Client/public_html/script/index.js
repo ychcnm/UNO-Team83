@@ -4,6 +4,7 @@ $(function () {
     var gameTitle;
     var capacity;
     var gameId;
+    var imgPath = "http://localhost:8080/Uno83Server/img/";
 
     var basicUrl = "http://localhost:8080/Uno83Server/api/UnoGame/";
     $("#create").on("singletap", function () {
@@ -16,7 +17,7 @@ $(function () {
         $.post(basicUrl + "POST/game/" + gameTitle + "/" + capacity)
                 .done(function (result) {
                     gameId = result.gameId;
-            
+
                     $("#waitGameId").text(gameId);
                     $("#waitGameTitle").text(result.gameTitle);
                     $("#waitGameCapacity").text(result.capacity);
@@ -50,10 +51,10 @@ $(function () {
                             }
                             case "start":
                             {
-                                $("#discrad").attr("src", "http://localhost:8080/Uno83Server/img/" + msg.pile);
+                                $("#discrad").attr("src", imgPath + msg.pile);
                                 var playerTemplate = Handlebars.compile($("#playerTemplate").html());
                                 for (var i in msg.players) {
-                                    var profile = $("<img>").attr("src", "http://localhost:8080/Uno83Server/img/Fred.jpg");
+                                    var profile = $("<img>").attr("src", imgPath + "Fred.jpg");
                                     var player = $("<h3>").text(msg.players[i]);
                                     $("#playerList").append(profile).append(player);
                                 }
@@ -66,6 +67,20 @@ $(function () {
                                 break;
                             case "cantStart":
                                 alert("Can't Start this Game!");
+                                break;
+                            case "changePile":
+                                $("#discrad").attr("src", imgPath + msg.pile);
+                                break;
+                            case "refreshCardAmount":
+                                $("#cardRemain").text(msg.amount);
+                                break;
+                            case "gameEnd":
+                                {
+                                    var rankTemplate = Handlebars.compile($("#rankTemplate").html());
+                                    var lRank = rankTemplate({players: msg.players});
+                                    $("#Rank").append(lRank);
+                                    $.UIGoToArticle("#gameEnd");
+                                }
                                 break;
                             default:
                                 break;
@@ -94,5 +109,12 @@ $(function () {
 //            }
 //            $.UIGoToArticle("#gameTable");
 //        });
+    });
+    $("#btnGameEnd").on("singletap", function () {
+        var message = {
+            msg: "endGame",
+            gameId: gameId
+        };
+        connection.send(JSON.stringify(message));
     });
 });

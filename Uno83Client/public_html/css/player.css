@@ -8,7 +8,7 @@
 }
 .special:hover {
     animation-name:cardout;
-    animation-duration: 2s;
+    animation-duration: 1s;
 }
 
 @keyframes cardout {
@@ -23,5 +23,44 @@
 
 .special li {
     animation-name:cardin;
-    animation-duration: 2s;
+    animation-duration: 1s;
+}
+#turn{
+    color:white;
+    font-size:1.2em;
+    font-weight:bold;
+    text-align:left;
+    position:absolute;
+    left:10%;
+    top:55%;
+}
+
+#btnDrawCards{
+    text-align:left;
+    margin:auto;
+    position: absolute;
+    top:70%;
+    left:10%;
+    /*left:50%;*/
+}
+
+#score{
+    color:white;
+    font-size:1.3em;
+    font-weight:bold;
+    text-align:left;
+    position:absolute;
+    left:10%;
+    top: 60%;
+
+}
+
+#playerNameInGame{
+    color:white;
+    font-size:1.5em;
+    font-weight:bold;
+    text-align:left;
+    position:relative;
+    left:10%;
+    top:55%;
 }

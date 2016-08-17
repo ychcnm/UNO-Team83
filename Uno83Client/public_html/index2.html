@@ -12,18 +12,29 @@ and open the template in the editor.
         <script type="text/javascript" src="script/chui-3.9.2.js"></script>
         <link type="text/css" rel="stylesheet" href="css/chui-ios-3.9.2.css" >
         <link type="text/css" rel="stylesheet" href="css/player.css">
+        <link type="text/css" rel="stylesheet" href="css/CreateGame.css" >
         <script id="listTemplate" type="text/x-handlebars">
             <li class="comp">
             <div>
-            <h3>{{gameTitle}}</h3>
+            <h3 id="gametitle">{{gameTitle}}</h3>
             <h4 id="selected-id">{{gameId}}</h4>
             </div>
             <aside>
-            <h4 style="color:red" id="selected-status">{{gameStatus}}</h3>
-            <h4>{{capacity}}</h4>
-            <h4>{{playerAmount}}</h4>   
+            <h4 style="color:red" id="selected-status">{{gameStatus}}</h4>
+            <h4>&nbsp;&nbsp;| Max: {{capacity}}</h4>
+            <h4>&nbsp;&nbsp;| No: {{playerAmount}}</h4>      
             </aside>
             </li>
+        </script>
+        <script id="rankTemplate" type="text/x-handlebars">
+            <ul class="list">
+            {{#each players}}
+               <li>
+                  <h3>{{name}}</h3>
+                  <h4>Score: {{score}}</h4>
+               </li>
+            {{/each}}
+            </ul>
         </script>
     </head>
     <body>
@@ -44,7 +55,7 @@ and open the template in the editor.
         </nav>
         <article id="player_details">
             <section>
-                <h2>Joining game <span id="detailsGameId"></span></h2>
+                <h2 style="color:white">Joining game <span id="detailsGameId"></span></h2>
                 <ul class="list">
                     <li>
                         <label for="playerName">Name: </label>
@@ -61,7 +72,7 @@ and open the template in the editor.
         </nav>
         <article id="waitingGame">
             <section>
-                <h2><span id="player"></span> Joining game <span id="waitingGameId"></span></h2>
+                <h2 style="color:white"><span id="player"></span> Joining game <span id="waitingGameId"></span></h2>
                 <ul class="list">
                     <li>
                         Waiting For Game Start ...
@@ -76,14 +87,30 @@ and open the template in the editor.
         <nav>
             <h1>Uno Game</h1>
         </nav>
-        <article id="gameStart">
+        <article id="game_start">
             <section>
+                <h4 id="playerNameInGame" style="color:white;">Player</h4>
                 <div class="container">
                     <ul id="handCards">
-
                     </ul>
+                </div>
+                <h5 id="score" style="color:white;">Score: </h5>
+                <button type = "button" id="btnDrawCards">Draw Card</button>
+                <div id="turn">
+
+
                 </div>
             </section>
         </article>
+
+        <nav>
+            <h1>Game End</h1>
+        </nav>
+        <article id="gameEnd">
+            <section id="Rank">
+
+            </section>
+        </article>
+
     </body>
 </html>
