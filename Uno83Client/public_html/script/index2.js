@@ -28,6 +28,9 @@ $(function () {
         if ($(this).find("#selected-status").text() === "GAME_START") {
             alert("The Game Already Started!");
             return;
+        } else if ($(this).find("#selected-status").text() === "GAME_END") {
+            alert("The Game Already End!");
+            return;
         }
         $("#detailsGameId").text(id);
         $.UIGoToArticle("#player_details");
@@ -45,7 +48,7 @@ $(function () {
 
         $.UIGoToArticle("#waitingGame");
 
-        connection = new WebSocket("ws://localhost:8080/Uno83Server/table/" + gameId + "/" + playerName);
+        connection = new WebSocket("ws://172.23.132.105:8080/Uno83Server/table/" + gameId + "/" + playerName);
         connection.onopen = function () {
             console.log(">> The Player Has Joined in");
             $("#waitingGameId").text(gameId);
@@ -66,66 +69,57 @@ $(function () {
             switch (msg.msg) {
                 case "deal":
 
-                        turn = $("<h1>").text(msg.turn);
-                        $("#turn").append(turn);
-                        fan(msg, imgPath);
-                        $("#playerNameInGame").text("Player: " + playerName);
-                        $("#score").text("Score: " + msg.score);
-                        $.isNavigating = false; //hack to make this work
-                        $.UIGoToArticle("article#game_start");
-                    
+                    turn = $("<h1>").text(msg.turn);
+                    $("#turn").append(turn);
+                    fan(msg, imgPath);
+                    $("#playerNameInGame").text("Player: " + playerName);
+                    $("#score").text("Score: " + msg.score);
+                    $.isNavigating = false; //hack to make this work
+                    $.UIGoToArticle("article#game_start");
+
                     break;
                 case "cantJoin":
                     alert("Can't Join this Game!");
                     break;
                 case "returnCard":
-                    
-                        alert("Can't throw this card!");
-                        $("#handCards").empty();
-                        fan(msg, imgPath);
-                    
+
+                    alert("Can't throw this card!");
+                    $("#handCards").empty();
+                    fan(msg, imgPath);
+
                     break;
                 case "refreshCard":
-                    
-                        $("#turn").empty();
-                        turn = $("<h1>").text(msg.turn);
-                        $("#turn").append(turn);
-                        $("#handCards").empty();
-                        $("#score").text("Score: " + msg.score);
-                        fan(msg, imgPath);
-                    
+
+                    $("#turn").empty();
+                    turn = $("<h1>").text(msg.turn);
+                    $("#turn").append(turn);
+                    $("#handCards").empty();
+                    $("#score").text("Score: " + msg.score);
+                    fan(msg, imgPath);
+
                     break;
                 case "shift":
-                    
-                        $("#turn").empty();
-                        turn = $("<h1>").text(msg.turn);
-                        $("#turn").append(turn);
-                    
+
+                    $("#turn").empty();
+                    turn = $("<h1>").text(msg.turn);
+                    $("#turn").append(turn);
+
                     break;
                 case "gameEnd":
-                    
-                        var rankTemplate = Handlebars.compile($("#rankTemplate").html());
-                        var lRank = rankTemplate({players: msg.players});
-                        $("#Rank").append(lRank);
-                        $.UIGoToArticle("#gameEnd");
-                    
+
+                    var rankTemplate = Handlebars.compile($("#rankTemplate").html());
+                    var lRank = rankTemplate({players: msg.players});
+                    $("#Rank").append(lRank);
+                    $.UIGoToArticle("#gameEnd");
+
                     break;
                 default:
-                
+
                     break;
-                
+
             }
 
         };
-//        $.post(basicUrl + "POST/joinGame/" + gameId + "/" + playerName)
-//                .done(function () {
-//                    $("#waitingGameId").text(gameId);
-//                    $("#player").text(playerName);
-//                    $.UIGoToArticle("#waitingGame");
-//                })
-//                .fail(function () {
-//                    alert("Can't Join the Game!");
-//                });
     });
     $("#handCards").on("doubletap", ".special", function () {
         var first = $(this);
@@ -163,24 +157,6 @@ $(function () {
         };
         connection.send(JSON.stringify(message));
     });
-//    $("#refreshGameBtn").on("singletap", function () {
-//        var gameId = $("#waitingGameId").text();
-//        var playerName = $("#player").text();
-//        $.get(basicUrl + "GET/gameInfo/" + gameId + "/" + playerName)
-//                .done(function (result) {
-//                    for (var i = 0; i < result.length; i++)
-//                    {
-//                        var cardUrl = $('<li class="special">');
-//                        var img = $("<img>").attr("src", "http://localhost:8080/Uno83Server/img/" + result[i].card);
-//                        cardUrl.append(img);
-//                        $("#handCards").append(cardUrl);
-//                    }
-//                    $.UIGoToArticle("#gameStart");
-//                })
-//                .fail(function () {
-//                    alert("Game Not Start!");
-//                });
-//    });
 });
 function fan(msg, imgPath) {
     for (var i in msg.hands)

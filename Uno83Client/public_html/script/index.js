@@ -88,12 +88,6 @@ $(function () {
                     };
                 });
     });
-//    $("#refreshBtn").on("singletap", function () {
-//        var gameId = $("#waitGameId").text();
-//        $.getJSON(basicUrl + "Get/Count/" + gameId).done(function (result) {
-//            $("#playerAmount").text(result.amount);
-//        });
-//    });
     $("#gameStartBtn").on("singletap", function () {
         gameId = $("#waitGameId").text();
         var message = {
@@ -101,14 +95,6 @@ $(function () {
             gameId: gameId
         };
         connection.send(JSON.stringify(message));
-//        $.post(basicUrl + "POST/Start/" + gameId).done(function (result) {
-//            $("#discrad").attr("src", "http://localhost:8080/Uno83Server/img/" + result[0].img2);
-//            var playerTemplate = Handlebars.compile($("#playerTemplate").html());
-//            for (var i = 1; i < result.length; i++) {
-//                $("#playerList").append(playerTemplate(result[i]));
-//            }
-//            $.UIGoToArticle("#gameTable");
-//        });
     });
     $("#btnGameEnd").on("singletap", function () {
         var message = {
